@@ -73,26 +73,17 @@ app.listen(PORT, () => {
 // PROXY ROUTES FOR GREEN SPACE MAP
 // ============================================================
 
-// Proxy for Nominatim (Geocoding)
+// 1. Geocoding (Nominatim)
 app.get('/api/geocode', async (req, res) => {
     try {
         const { q } = req.query;
         if (!q) {
             return res.status(400).json({ error: 'Missing query parameter' });
         }
-        
         const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&polygon_geojson=1`;
         const response = await fetch(url, {
-            headers: { 
-                'User-Agent': 'GreenSpaceMap/1.0 (via proxy)',
-                'Accept': 'application/json'
-            }
+            headers: { 'User-Agent': 'GreenSpaceMap/1.0 (via proxy)' }
         });
-        
-        if (!response.ok) {
-            return res.status(response.status).json({ error: `Nominatim error: ${response.status}` });
-        }
-        
         const data = await response.json();
         res.json(data);
     } catch (error) {
@@ -101,61 +92,44 @@ app.get('/api/geocode', async (req, res) => {
     }
 });
 
-// Proxy for Overpass (Parks)
+// 2. Parks (Overpass)
 app.get('/api/overpass-parks', async (req, res) => {
     try {
         const { south, west, north, east } = req.query;
         if (!south || !west || !north || !east) {
-            return res.status(400).json({ error: 'Missing bounding box parameters' });
+            return res.status(400).json({ error: 'Missing bounding box' });
         }
-        
         const query = `[out:json][timeout:30];way["leisure"="park"](${south},${west},${north},${east});out geom;`;
         const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-        
         const response = await fetch(url, {
             headers: { 'User-Agent': 'GreenSpaceMap/1.0 (via proxy)' }
         });
-        
-        if (!response.ok) {
-            return res.status(response.status).json({ error: `Overpass error: ${response.status}` });
-        }
-        
         const data = await response.json();
         res.json(data);
     } catch (error) {
-        console.error('Overpass parks proxy error:', error);
+        console.error('Overpass parks error:', error);
         res.status(500).json({ error: error.message });
     }
 });
 
-// Proxy for Overpass (Trees)
+// 3. Trees (Overpass)
 app.get('/api/overpass-trees', async (req, res) => {
     try {
         const { south, west, north, east } = req.query;
         if (!south || !west || !north || !east) {
-            return res.status(400).json({ error: 'Missing bounding box parameters' });
+            return res.status(400).json({ error: 'Missing bounding box' });
         }
-        
         const query = `[out:json][timeout:30];node["natural"="tree"](${south},${west},${north},${east});out;`;
         const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-        
         const response = await fetch(url, {
             headers: { 'User-Agent': 'GreenSpaceMap/1.0 (via proxy)' }
         });
-        
-        if (!response.ok) {
-            return res.status(response.status).json({ error: `Overpass error: ${response.status}` });
-        }
-        
         const data = await response.json();
         res.json(data);
     } catch (error) {
-        console.error('Overpass trees proxy error:', error);
+        console.error('Overpass trees error:', error);
         res.status(500).json({ error: error.message });
     }
 });
 
-// Health check
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'OK', timestamp: new Date().toISOString() });
-});
+// Keep your existing routes (like /api/health, /api/zones, etc.)
