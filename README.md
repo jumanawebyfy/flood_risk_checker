@@ -49,8 +49,8 @@ A full-stack web application that checks if a user's location falls within a flo
 ## 🎥 Demo
 
 ### Live Demo
-- **Frontend:** https://flood-risk-checker.vercel.app
-- **Backend API:** https://flood-risk-checker-api.onrender.com/api/zones
+- **Frontend:** https://flood-risk-checker-git-main-jum-s-projects3.vercel.app
+- **Backend API:** https://flood-risk-checker.onrender.com/api/zones
 
 ### How It Works
 1. User opens the app
