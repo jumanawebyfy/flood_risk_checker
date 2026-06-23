@@ -7,7 +7,7 @@
 // ============================================================
 const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://localhost:3000/api/zones'
-    : 'https://your-backend.onrender.com/api/zones';
+    : 'https://flood-risk-checker.onrender.com/api/zones';
 
 // ============================================================
 // DOM Elements
