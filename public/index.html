@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌊 Flood Risk Checker</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🌊 Flood Risk Checker</h1>
+            <p>Check your location for flood risk zones</p>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="main-content">
+            <!-- Map -->
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="side-panel">
+                <div class="panel-section">
+                    <h3><i class="fas fa-map-pin"></i> Your Location</h3>
+                    <button id="locateBtn" class="btn-primary"><i class="fas fa-location-dot"></i> Get My Location</button>
+                    <div id="locationStatus" class="status-text">Click to get location</div>
+                </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-triangle-exclamation"></i> Risk Assessment</h3>
+                    <div id="riskDisplay" class="risk-display">
+                        <div class="risk-none">No location checked yet</div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-layer-group"></i> Map Layers</h3>
+                    <div id="layerControls"></div>
+                </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-cloud-rain"></i> Rainfall Gauges</h3>
+                    <div id="rainfallData">
+                        <p class="loading-text">Loading rainfall data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Application JS -->
+    <script src="app.js"></script>
+</body>
+</html>

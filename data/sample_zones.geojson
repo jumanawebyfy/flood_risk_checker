@@ -1,0 +1,53 @@
+[
+    {
+        "name": "Kuttanad Low-lying Zone A",
+        "riskLevel": "high",
+        "district": "Alappuzha",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [76.44, 9.32],
+                    [76.48, 9.32],
+                    [76.48, 9.36],
+                    [76.44, 9.36],
+                    [76.44, 9.32]
+                ]
+            ]
+        }
+    },
+    {
+        "name": "Kochi Coastal Zone",
+        "riskLevel": "medium",
+        "district": "Ernakulam",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [76.24, 9.90],
+                    [76.30, 9.90],
+                    [76.30, 9.98],
+                    [76.24, 9.98],
+                    [76.24, 9.90]
+                ]
+            ]
+        }
+    },
+    {
+        "name": "Kozhikode City Zone",
+        "riskLevel": "low",
+        "district": "Kozhikode",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [75.78, 11.24],
+                    [75.82, 11.24],
+                    [75.82, 11.28],
+                    [75.78, 11.28],
+                    [75.78, 11.24]
+                ]
+            ]
+        }
+    }
+]
