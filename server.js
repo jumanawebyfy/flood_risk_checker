@@ -15,11 +15,6 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
-app.use(express.json({
-    verify: (req, res, buf) => {
-        console.log("RAW BODY:", buf.toString());
-    }
-}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ============================================================
@@ -32,45 +27,7 @@ mongoose.connect(MONGODB_URI)
     .catch(err => console.error('❌ MongoDB connection error:', err.message));
 
 // ============================================================
-// Routes
-// ============================================================
-const zoneRoutes = require('./routes/zones');
-app.use('/api/zones', zoneRoutes);
-
-app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'OK',
-        timestamp: new Date().toISOString(),
-        mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
-    });
-});
-
-// Serve frontend
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// 404 handler
-app.use((req, res) => {
-    res.status(404).json({ success: false, message: 'Route not found' });
-});
-
-// Error handler
-app.use((err, req, res, next) => {
-    console.error('Error:', err.stack);
-    res.status(500).json({ success: false, message: err.message });
-});
-
-// ============================================================
-// Start Server
-// ============================================================
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📡 API: http://localhost:${PORT}/api/zones`);
-});
-
-// ============================================================
-// PROXY ROUTES FOR GREEN SPACE MAP
+// PROXY ROUTES FOR GREEN SPACE MAP (MOVED HERE - BEFORE 404)
 // ============================================================
 
 // 1. Geocoding (Nominatim)
@@ -132,4 +89,45 @@ app.get('/api/overpass-trees', async (req, res) => {
     }
 });
 
-// Keep your existing routes (like /api/health, /api/zones, etc.)
+// ============================================================
+// Routes
+// ============================================================
+const zoneRoutes = require('./routes/zones');
+app.use('/api/zones', zoneRoutes);
+
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    });
+});
+
+// Serve frontend
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// ============================================================
+// 404 HANDLER - MUST BE LAST
+// ============================================================
+app.use((req, res) => {
+    res.status(404).json({ success: false, message: 'Route not found' });
+});
+
+// ============================================================
+// ERROR HANDLER - MUST BE LAST
+// ============================================================
+app.use((err, req, res, next) => {
+    console.error('Error:', err.stack);
+    res.status(500).json({ success: false, message: err.message });
+});
+
+// ============================================================
+// Start Server
+// ============================================================
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`📡 API: http://localhost:${PORT}/api/zones`);
+    console.log(`📍 Geocode: http://localhost:${PORT}/api/geocode?q=Kozhikode`);
+});
